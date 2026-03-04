@@ -1,0 +1,30 @@
+stages:
+  preprocess:
+    cmd: py -3.11 preprocess.py --input Boston-house-price-data.csv
+    deps:
+      - preprocess.py
+      - Boston-house-price-data.csv
+    outs:
+      - data/train.csv
+      - data/test.csv
+
+  train:
+    cmd: py -3.11 train.py --input data/train.csv --model models/model.pkl
+    deps:
+      - train.py
+      - data/train.csv
+    outs:
+      - models/model.pkl
+
+  validate:
+    cmd: py -3.11 validate.py --test-data data/test.csv --model models/model.pkl --out-metrics metrics.json --out-plot actual_vs_predicted.png
+    deps:
+      - validate.py
+      - data/test.csv
+      - models/model.pkl
+    metrics:
+      - metrics.json:
+          cache: false
+    plots:
+      - actual_vs_predicted.png:
+          cache: false

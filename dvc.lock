@@ -1,0 +1,63 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: py -3.11 preprocess.py --input Boston-house-price-data.csv
+    deps:
+    - path: Boston-house-price-data.csv
+      hash: md5
+      md5: 578a5ce1821b5899262b970fffeae055
+      size: 41359
+    - path: preprocess.py
+      hash: md5
+      md5: b6064d14cd8ec16766a8dee64b583a12
+      size: 1130
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: 657eee39f3f90807ae5b36a693541638
+      size: 7650
+    - path: data/train.csv
+      hash: md5
+      md5: 242c8afdb2b61c89bc8179513a4c08c3
+      size: 30066
+  train:
+    cmd: py -3.11 train.py --input data/train.csv --model models/model.pkl
+    deps:
+    - path: data/train.csv
+      hash: md5
+      md5: 242c8afdb2b61c89bc8179513a4c08c3
+      size: 30066
+    - path: train.py
+      hash: md5
+      md5: 93858f85c3c105f040ee34c373d824ff
+      size: 1357
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 4e6bbf40e5dd0a8d7a0ceb702e67bedb
+      size: 5447482
+  validate:
+    cmd: py -3.11 validate.py --test-data data/test.csv --model models/model.pkl
+      --out-metrics metrics.json --out-plot actual_vs_predicted.png
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 657eee39f3f90807ae5b36a693541638
+      size: 7650
+    - path: models/model.pkl
+      hash: md5
+      md5: 4e6bbf40e5dd0a8d7a0ceb702e67bedb
+      size: 5447482
+    - path: validate.py
+      hash: md5
+      md5: d4a29493a750bb85bca9a3d9b7a57e70
+      size: 1802
+    outs:
+    - path: actual_vs_predicted.png
+      hash: md5
+      md5: bc535ebab6eebf951d3e34403afd24a0
+      size: 36120
+    - path: metrics.json
+      hash: md5
+      md5: 92af94b99cefc005a434cc54e04937b6
+      size: 65
