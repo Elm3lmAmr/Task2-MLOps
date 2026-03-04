@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import pickle
-from sklearn.ensemble import random_forest
+from sklearn.ensemble import RandomForestRegressor
 import argparse
 
 def train(input_train, out_model='models/model.pkl', n_estimators=100, max_depth=None):
