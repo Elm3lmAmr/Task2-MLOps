@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import pickle
-from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import random_forest
 import argparse
 
 def train(input_train, out_model='models/model.pkl', n_estimators=100, max_depth=None):
@@ -14,8 +14,8 @@ def train(input_train, out_model='models/model.pkl', n_estimators=100, max_depth
     X = df.drop('MEDV', axis=1)
     y = df['MEDV']
     
-    print(f"Training GradientBoostingRegressor model with n_estimators={n_estimators}, max_depth={max_depth}...")
-    model = GradientBoostingRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=42)
+    print(f"Training RandomForestRegressor model with n_estimators={n_estimators}, max_depth={max_depth}...")
+    model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=42)
     model.fit(X, y)
     
     # Save the model
